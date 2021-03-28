@@ -4,18 +4,18 @@ import { Grid, Image, Text } from "../elements";
 const Post = (props) => {
     return (
         <div>
-            <Grid is_flex>
+            <Grid is_flex width="460px">
                 <Image shape="circle" src={props.src} />
                 <Text bold>{props.user_info.user_name}</Text>
                 <Text>{props.insert_dt}</Text>
             </Grid>
-            <Grid>
+            <Grid width="460px">
                 <Image shape="rectangle" src={props.src} />
             </Grid>
-            <Grid padding="16px">
+            <Grid padding="16px" width="460px">
                 <Text>{props.contents}</Text>
             </Grid>
-            <Grid padding="16px">
+            <Grid padding="16px" width="460px">
                 <Text>댓글 {props.comment_cnt}개</Text>
             </Grid>
         </div>

@@ -3,7 +3,7 @@ import { Grid, Text, Button } from "../elements";
 
 const Header = (props) => {
     return (
-        <Grid is_flex padding="4px 16px">
+        <Grid is_flex padding="4px 16px" width="460px">
             <Grid>
                 <Text margin="0" size="24px" bold>
                     gggggg
