@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, Text, Input, Button } from "../elements";
+import { emailCheck } from "../shared/common";
 import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 
@@ -12,7 +13,11 @@ const Signup = (props) => {
 
     const signup = () => {
         if (id === "" || pwd === "" || user_name === "") {
-            window.alert("입력되지 않은 부분이 있습니다.");
+            window.alert("입력되지 않은 부분이 있습니다");
+            return;
+        }
+        if (!emailCheck(id)) {
+            window.alert("이메일 형식이 맞지 않습니다");
             return;
         }
         if (pwd !== pwd_check) {
@@ -40,7 +45,6 @@ const Signup = (props) => {
                 <Input
                     label="닉네임"
                     placeholder="닉네임을 입력해주세요"
-                    type="password"
                     _onChange={(e) => {
                         setUserName(e.target.value);
                     }}
@@ -50,7 +54,7 @@ const Signup = (props) => {
                 <Input
                     label="비밀번호"
                     placeholder="비밀번호를 입력해주세요"
-                    type="paasword"
+                    type="password"
                     _onChange={(e) => {
                         setPwd(e.target.value);
                     }}
@@ -60,6 +64,7 @@ const Signup = (props) => {
                 <Input
                     label="비밀번호 확인"
                     placeholder="비밀번호를 입력해주세요"
+                    type="password"
                     _onChange={(e) => {
                         setPwdCheck(e.target.value);
                     }}

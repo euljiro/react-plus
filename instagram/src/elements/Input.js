@@ -14,7 +14,7 @@ const Input = (props) => {
 };
 
 Input.defaultProps = {
-    label: "text",
+    label: null,
     placeholder: "텍스트를 입력해주세요",
     type: "text",
     _onChange: () => {},

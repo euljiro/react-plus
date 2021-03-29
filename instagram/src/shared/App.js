@@ -15,7 +15,9 @@ import "./App.css";
 
 import { useDispatch, connect, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
+import { actionCreators as postActions } from "../redux/modules/post";
 import { apiKey } from "./firebase";
+import PostDetail from "../pages/PostDetail";
 
 function App() {
     const dispatch = useDispatch();
@@ -32,13 +34,14 @@ function App() {
                         <Route path="/" exact component={PostList} />
                         <Route path="/login" exact component={Login} />
                         <Route path="/signup" exact component={Signup} />
+                        <Route path="/detail" exact component={PostDetail} />
                         <Switch>
                             <Route
                                 path="/"
                                 exact
                                 render={(props) => (
                                     <div>
-                                        <FaButton history={this.props.history} />
+                                        <FaButton /*history={this.props.history}*/ />
                                     </div>
                                 )}
                             />
