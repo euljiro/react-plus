@@ -7,17 +7,19 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Header from "../components/Header";
 import "./App.css";
+import { history } from "../redux/configureStore";
+import { ConnectedRouter } from "connected-react-router";
 
 function App() {
     return (
         <Grid>
             <Header></Header>
-            <BrowserRouter>
+            <ConnectedRouter history={history}>
                 <Route path="/" exact component={PostList} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={Signup} />
                 <Route path="/" exact component={Post} />
-            </BrowserRouter>
+            </ConnectedRouter>
         </Grid>
     );
 }

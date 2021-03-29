@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Text, Grid, Input, Button } from "../elements";
-import setCookie from "../shared/Cookie";
+import { setCookie, deleteCookie, getCookie } from "../shared/Cookie";
+import { actionCreators as userActions } from "../redux/modules/user";
+import { useDispatch } from "react-redux";
 
 const Login = (props) => {
+    const dispatch = useDispatch();
     const [id, setId] = React.useState("");
     const [pwd, setPwd] = React.useState("");
 
@@ -15,8 +18,14 @@ const Login = (props) => {
     };
 
     const login = () => {
-        setCookie("user_id", id, 3);
-        setCookie("user_pwd", pwd, 3);
+        dispatch(userActions.logIN({ user_name: "kekeke" }));
+    };
+
+    const loginAction = (user) => {
+        return function (dispatch, getState, { history }) {
+            dispatch(login(user));
+            history.push("/");
+        };
     };
 
     return (
