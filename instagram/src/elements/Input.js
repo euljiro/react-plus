@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { Text } from "./index";
 
 const Input = (props) => {
-    const { label, placeholder, _onChange } = props;
+    const { label, placeholder, _onChange, type } = props;
 
     return (
         <React.Fragment>
             <Text margin="0px">{label}</Text>
-            <InputStyle placeholder={placeholder} onChange={_onChange}></InputStyle>
+            <InputStyle type={type} placeholder={placeholder} onChange={_onChange} />
         </React.Fragment>
     );
 };
@@ -16,6 +16,7 @@ const Input = (props) => {
 Input.defaultProps = {
     label: "text",
     placeholder: "텍스트를 입력해주세요",
+    type: "text",
     _onChange: () => {},
 };
 

@@ -2,17 +2,17 @@ import firebase from "firebase";
 import "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDOCAbC123dEf456GhI789jKl01-MnO",
-    authDomain: "myapp-project-123.firebaseapp.com",
-    databaseURL: "https://myapp-project-123.firebaseio.com",
-    projectId: "myapp-project-123",
-    storageBucket: "myapp-project-123.appspot.com",
-    messagingSenderId: "65211879809",
-    appId: "1:65211879909:web:3ae38ef1cdcb2e01fe5f0c",
-    measurementId: "G-8GSGZQ44ST",
+    apiKey: "AIzaSyAlw7N7M7oTrcyn32tNtUa7fAXmD-fkJsw",
+    authDomain: "image-commu.firebaseapp.com",
+    projectId: "image-commu",
+    storageBucket: "image-commu.appspot.com",
+    messagingSenderId: "894547134452",
+    appId: "1:894547134452:web:1dc58130ba2658aef25ba1",
+    measurementId: "G-TRJ1EFDN7P",
 };
 
 firebase.initializeApp(firebaseConfig);
+const apiKey = firebaseConfig.apiKey;
 const auth = firebase.auth();
 
-export { auth };
+export { auth, apiKey };

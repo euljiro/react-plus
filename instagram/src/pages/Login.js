@@ -18,14 +18,12 @@ const Login = (props) => {
     };
 
     const login = () => {
-        dispatch(userActions.logIN({ user_name: "kekeke" }));
-    };
-
-    const loginAction = (user) => {
-        return function (dispatch, getState, { history }) {
-            dispatch(login(user));
-            history.push("/");
-        };
+        if (id === "" || pwd === "") {
+            window.alert("아이디 혹은 비밀번호를 입력해주세요");
+            return;
+        }
+        window.alert("로그인 되었습니다");
+        dispatch(userActions.loginFB(id, pwd));
     };
 
     return (
@@ -38,16 +36,19 @@ const Login = (props) => {
                     <Input
                         label="아이디"
                         placeholder="아이디를 입력해주세요"
-                        value={id}
-                        _onChange={changeId}
+                        _onChange={(e) => {
+                            setId(e.target.value);
+                        }}
                     />
                 </Grid>
                 <Grid padding="16px 0">
                     <Input
                         label="비밀번호"
                         placeholder="비밀번호를 입력해주세요"
-                        value={pwd}
-                        _onChange={changePwd}
+                        type="password"
+                        _onChange={(e) => {
+                            setPwd(e.target.value);
+                        }}
                     />
                 </Grid>
                 <Grid padding="16px 0">
