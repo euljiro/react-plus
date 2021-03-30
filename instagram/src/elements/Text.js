@@ -19,6 +19,7 @@ Text.defaultProps = {
     color: "#333",
     size: "14px",
     margin: false,
+    _onClick: () => {},
 };
 
 const P = styled.p`

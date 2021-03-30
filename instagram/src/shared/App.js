@@ -13,16 +13,22 @@ import Signup from "../pages/Signup";
 import Header from "../components/Header";
 import "./App.css";
 
-import { useDispatch, connect, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
-import { actionCreators as postActions } from "../redux/modules/post";
 import { apiKey } from "./firebase";
 import PostDetail from "../pages/PostDetail";
 
 function App() {
     const dispatch = useDispatch();
-    const user_info = useSelector((state) => state.user.user);
     const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+    const is_session = sessionStorage.getItem(_session_key) ? true : false;
+    React.useEffect(() => {
+        if (is_session) {
+            dispatch(userActions.loginCheckFB());
+        }
+    }, []);
+
+    const user_info = useSelector((state) => state.user.user);
     const is_login = sessionStorage.getItem(_session_key);
 
     if (is_login) {
