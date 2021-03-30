@@ -1,7 +1,5 @@
 import React from "react";
 import { Grid, Image, Text } from "../elements";
-import { useSelector, useDispatch } from "react-redux";
-import { actionCreators as postActions } from "../redux/modules/post";
 
 const Post = (props) => {
     return (
@@ -12,7 +10,7 @@ const Post = (props) => {
                 <Text>{props.insert_dt}</Text>
             </Grid>
             <Grid>
-                <Image shape="rectangle" src={props.src} />
+                <Image shape="rectangle" src={props.image_url} />
             </Grid>
             <Grid padding="16px">
                 <Text>{props.contents}</Text>

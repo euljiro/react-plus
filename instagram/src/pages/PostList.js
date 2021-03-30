@@ -6,19 +6,18 @@ import { actionCreators as postActions } from "../redux/modules/post";
 const PostList = (props) => {
     const dispatch = useDispatch();
     const post_list = useSelector((state) => state.post.list);
-    console.log(post_list);
 
     React.useEffect(() => {
-        if (post_list.length === 0) {
-            dispatch(postActions.getPostFB());
-        }
+        dispatch(postActions.getPostFB());
+        console.log(post_list);
     }, []);
 
     return (
         <React.Fragment>
             {post_list.map((p, idx) => {
-                console.log(p, "p");
-                return <Post key={p.id} {...p} />;
+                if (p !== 0) {
+                    return <Post key={p} {...p} />;
+                }
             })}
         </React.Fragment>
     );

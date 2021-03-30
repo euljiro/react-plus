@@ -50,8 +50,6 @@ const signupFB = (id, pwd, user_name) => {
     return function (dispatch, getState, { history }) {
         auth.createUserWithEmailAndPassword(id, pwd)
             .then((user) => {
-                console.log(user);
-
                 auth.currentUser
                     .updateProfile({
                         displayName: user_name,

@@ -1,10 +1,9 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import { firestore } from "../../shared/firebase";
+import { firestore, storage } from "../../shared/firebase";
+import { actionCreators as imageActions } from "./image";
 import moment from "moment";
 
-const postDB = firestore.collection("post");
-console.log(postDB);
 //Action
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
@@ -12,11 +11,6 @@ const ADD_POST = "ADD_POST";
 //ActionCreator
 const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post_list) => ({ post_list }));
-
-//initialState
-// const initialState = {
-//     list: [],
-// };
 
 const initialState = {
     list: [],
@@ -57,7 +51,6 @@ const getPostFB = () => {
                 post_list.push(post);
             });
             dispatch(setPost(post_list));
-            console.log(setPost(post_list), "hhh");
         });
     };
 };
@@ -78,17 +71,38 @@ const addPostFB = (contents = "") => {
             contents: contents,
             insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
         };
-        postDB
-            .add({ ...user_info, ..._post })
-            .then((doc) => {
-                // 아이디를 추가해요!
-                let post = { user_info, ..._post, id: doc.id };
-                dispatch(addPost(post));
-                history.replace("/");
-                console.log(post);
+
+        const _image = getState().image.preview;
+
+        const _upload = storage
+            .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
+            .putString(_image, "data_url");
+        _upload
+            .then((snapshot) => {
+                snapshot.ref
+                    .getDownloadURL()
+                    .then((url) => {
+                        dispatch(imageActions.uploadImage(url));
+                        return url;
+                    })
+                    .then((url) => {
+                        console.log(url);
+                        postDB
+                            .add({ ...user_info, ..._post, image_url: url })
+                            .then((doc) => {
+                                // 아이디를 추가해요!
+                                let post = { user_info, ..._post, id: doc.id, image_url: url };
+                                dispatch(addPost(post));
+                                history.replace("/");
+                            })
+                            .catch((err) => {
+                                console.log("post 작성 실패!", err);
+                            });
+                    });
             })
             .catch((err) => {
-                console.log("post 작성 실패!", err);
+                window.alert("이미지 업로드 실패");
+                console.log(err);
             });
     };
 };
