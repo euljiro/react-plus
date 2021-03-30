@@ -11,6 +11,8 @@ import PostWrite from "../pages/PostWrite";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Header from "../components/Header";
+import Search from "./Search";
+import Notification from "../pages/Notification";
 import "./App.css";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -41,6 +43,8 @@ function App() {
                         <Route path="/login" exact component={Login} />
                         <Route path="/signup" exact component={Signup} />
                         <Route path="/detail" exact component={PostDetail} />
+                        <Route path="/search" exact component={Search} />
+                        <Route path="/noti" exact component={Notification} />
                         <Switch>
                             <Route
                                 path="/"
@@ -51,7 +55,7 @@ function App() {
                                     </div>
                                 )}
                             />
-                            <Route path="/post" component={PostWrite} />
+                            <Route path="/post/:id" component={PostWrite} />
                         </Switch>
                     </ConnectedRouter>
                 </Grid>
@@ -66,7 +70,6 @@ function App() {
                         <Route path="/" exact component={PostList} />
                         <Route path="/login" exact component={Login} />
                         <Route path="/signup" exact component={Signup} />
-                        <Route path="/post" exact component={PostWrite} />
                     </ConnectedRouter>
                 </Grid>
             </div>

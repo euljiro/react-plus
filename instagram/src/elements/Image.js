@@ -20,18 +20,31 @@ const Image = (props) => {
             </AspectOutter>
         );
     }
+
+    return (
+        <React.Fragment>
+            <ImageDefault {...styles}></ImageDefault>
+        </React.Fragment>
+    );
 };
 
 Image.defaultProps = {
     shape: "circle",
-    src:
-        "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg",
+    src: "https://mean0images.s3.ap-northeast-2.amazonaws.com/4.jpeg",
     size: 36,
 };
 
+const ImageDefault = styled.div`
+    --size: ${(props) => props.size}px;
+    width: var(--size);
+    height: var(--size);
+    background-image: url("${(props) => props.src}");
+    background-size: cover;
+`;
+
 const AspectOutter = styled.div`
     width: 100%;
-    mid0width: 250px;
+    min-width: 250px;
 `;
 
 const AspectInner = styled.div`
@@ -43,11 +56,11 @@ const AspectInner = styled.div`
 `;
 
 const ImageCircle = styled.div`
-    // defaultProps에 있는 size
     --size: ${(props) => props.size}px;
     width: var(--size);
     height: var(--size);
     border-radius: var(--size);
+
     background-image: url("${(props) => props.src}");
     background-size: cover;
     margin: 4px;

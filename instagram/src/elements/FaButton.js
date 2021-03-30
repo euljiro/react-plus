@@ -1,7 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router";
 import styled from "styled-components";
-import { ThemeConsumer } from "styled-components";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 

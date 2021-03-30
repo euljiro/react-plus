@@ -1,19 +1,34 @@
 import React, { useState } from "react";
-
-import axios from "axios";
 import Upload from "../shared/Upload";
+import { history } from "../redux/configureStore";
 
 import { Grid, Text, Button, Image, Input } from "../elements";
-import { withRouter } from "react-router";
 import "../shared/App.css";
 
 import { actionCreators as postActions } from "../redux/modules/post";
+import { actionCreators as imageActions } from "../redux/modules/image";
 import { useDispatch, useSelector } from "react-redux";
 
 const PostWrite = (props) => {
-    const [contents, setContents] = useState("");
     const dispatch = useDispatch();
     const preview = useSelector((state) => state.image.preview);
+    const post_list = useSelector((state) => state.post.list);
+    const post_id = props.match.params.id;
+
+    const is_edit = post_id ? true : false;
+    let _post = is_edit ? post_list.find((p) => p.id === post_id) : null;
+    const [contents, setContents] = useState(_post ? _post.contents : "");
+
+    React.useEffect(() => {
+        if (is_edit && !_post) {
+            console.log("not post");
+            history.goBack();
+            return;
+        }
+        if (is_edit) {
+            dispatch(imageActions.setPreview(_post.image_url));
+        }
+    }, []);
 
     const changeContents = (e) => {
         setContents(e.target.value);
@@ -21,6 +36,10 @@ const PostWrite = (props) => {
 
     const addPost = (history) => {
         dispatch(postActions.addPostFB(contents));
+    };
+
+    const editPost = () => {
+        dispatch(postActions.editPostFB(post_id, { contents: contents }));
     };
 
     return (
@@ -44,11 +63,19 @@ const PostWrite = (props) => {
                 <Input
                     label="게시글"
                     placeholder="게시글을 입력해주세요"
+                    value={contents}
                     _onChange={changeContents}
                 />
-                <button className="list-btn" onClick={addPost}>
-                    포스팅하기
-                </button>
+                {is_edit ? (
+                    <button className="list-btn" onClick={editPost}>
+                        수정하기
+                    </button>
+                ) : (
+                    <button className="list-btn" onClick={addPost}>
+                        포스팅하기
+                    </button>
+                )}
+
                 <button
                     className="list-cancle-btn"
                     onClick={() => {
@@ -62,4 +89,4 @@ const PostWrite = (props) => {
     );
 };
 
-export default withRouter(PostWrite);
+export default PostWrite;
