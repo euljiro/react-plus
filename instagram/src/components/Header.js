@@ -5,12 +5,12 @@ import { useSelector, useDispatch } from "react-redux";
 import user, { actionCreators as userActions } from "../redux/modules/user";
 import { history } from "../redux/configureStore";
 import { apiKey } from "../shared/firebase";
+
 const Header = (props) => {
     const dispatch = useDispatch();
     const is_login = useSelector((state) => state.user.is_login);
     const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
     const is_session = sessionStorage.getItem(_session_key) ? true : false;
-    console.log(is_session);
     if (is_login && is_session) {
         return (
             <React.Fragment>
@@ -30,7 +30,7 @@ const Header = (props) => {
                         <Button
                             text="알림"
                             _onClick={() => {
-                                console.log("noti!");
+                                history.push("/noti");
                             }}
                         />
                         <Button

@@ -30,51 +30,24 @@ function App() {
         }
     }, []);
 
-    const user_info = useSelector((state) => state.user.user);
-    const is_login = sessionStorage.getItem(_session_key);
-
-    if (is_login) {
-        return (
-            <div>
-                <Grid>
-                    <Header></Header>
-                    <ConnectedRouter history={history}>
-                        <Route path="/" exact component={PostList} />
-                        <Route path="/login" exact component={Login} />
-                        <Route path="/signup" exact component={Signup} />
-                        <Route path="/detail" exact component={PostDetail} />
-                        <Route path="/search" exact component={Search} />
-                        <Route path="/noti" exact component={Notification} />
-                        <Switch>
-                            <Route
-                                path="/"
-                                exact
-                                render={(props) => (
-                                    <div>
-                                        <FaButton /*history={this.props.history}*/ />
-                                    </div>
-                                )}
-                            />
-                            <Route path="/post/:id" component={PostWrite} />
-                        </Switch>
-                    </ConnectedRouter>
-                </Grid>
-            </div>
-        );
-    } else {
-        return (
-            <div>
-                <Grid>
-                    <Header></Header>
-                    <ConnectedRouter history={history}>
-                        <Route path="/" exact component={PostList} />
-                        <Route path="/login" exact component={Login} />
-                        <Route path="/signup" exact component={Signup} />
-                    </ConnectedRouter>
-                </Grid>
-            </div>
-        );
-    }
+    return (
+        <React.Fragment>
+            <Grid>
+                <Header></Header>
+                <ConnectedRouter history={history}>
+                    <Route path="/" exact component={PostList} />
+                    <Route path="/login" exact component={Login} />
+                    <Route path="/signup" exact component={Signup} />
+                    <Route path="/post" exact component={PostWrite} />
+                    <Route path="/post/:id" exact component={PostDetail} />
+                    <Route path="/noti" exact component={Notification} />
+                </ConnectedRouter>
+            </Grid>
+            <Permit>
+                <Route path="/post" exact component={FaButton} />
+            </Permit>
+        </React.Fragment>
+    );
 }
 
 export default withRouter(App);
