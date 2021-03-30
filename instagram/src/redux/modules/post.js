@@ -19,25 +19,19 @@ const addPost = createAction(ADD_POST, (post_list) => ({ post_list }));
 // };
 
 const initialState = {
-    post_list: [
-        {
-            user_info: {
-                id: 0,
-                user_name: "nick",
-                user_profile: "https://mean0images.s3.ap-northeast-2.amazonaws.com/4.jpeg",
-            },
-            image_url: "https://mean0images.s3.ap-northeast-2.amazonaws.com/4.jpeg",
-            contents: "고양이네요",
-            comment_cnt: 5,
-            insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
-        },
-    ],
+    list: [],
 };
 
 const initialPost = {
+    id: 0,
+    user_info: {
+        id: 0,
+        user_name: "nick",
+        user_profile: "https://mean0images.s3.ap-northeast-2.amazonaws.com/4.jpeg",
+    },
     image_url: "https://mean0images.s3.ap-northeast-2.amazonaws.com/4.jpeg",
-    contents: "",
-    comment_cnt: 0,
+    contents: "고양이네요",
+    comment_cnt: 5,
     insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
 
