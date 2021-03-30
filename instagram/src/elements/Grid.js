@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 const Grid = (props) => {
-    //default 프롭스를 가져오자
     const { is_flex, width, margin, padding, bg, children } = props;
 
     const styles = {
@@ -12,16 +11,15 @@ const Grid = (props) => {
         padding: padding,
         bg: bg,
     };
-
     return (
-        <div>
+        <React.Fragment>
             <GridBox {...styles}>{children}</GridBox>
-        </div>
+        </React.Fragment>
     );
 };
 
-Grid.defalutProps = {
-    children: null,
+Grid.defaultProps = {
+    chidren: null,
     is_flex: false,
     width: "100%",
     padding: false,
@@ -35,9 +33,9 @@ const GridBox = styled.div`
     box-sizing: border-box;
     ${(props) => (props.padding ? `padding: ${props.padding};` : "")}
     ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
-    ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}
-    ${(props) =>
-        props.is_flex ? `display:flex; align-items:center; justify-content:space-between;` : ""}
+  ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}
+  ${(props) =>
+        props.is_flex ? `display: flex; align-items: center; justify-content: space-between; ` : ""}
 `;
 
 export default Grid;
