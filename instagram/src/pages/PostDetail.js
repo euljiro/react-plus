@@ -1,12 +1,12 @@
 import React from "react";
-import PostList from "./PostList";
+import Post from "../components/Post";
 import CommentList from "../components/CommentList";
 import CommentWrite from "../components/CommentWrite";
 
 const PostDetail = (props) => {
     return (
         <React.Fragment>
-            <PostList />
+            <Post />
             <CommentWrite />
             <CommentList />
         </React.Fragment>

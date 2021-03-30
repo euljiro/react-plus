@@ -1,72 +1,70 @@
-import React, { useState } from "react";
-import { Text, Grid, Input, Button } from "../elements";
-import { emailCheck } from "../shared/common";
-import { setCookie, deleteCookie, getCookie } from "../shared/Cookie";
-import { actionCreators as userActions } from "../redux/modules/user";
+import React from "react";
+import { Text, Input, Grid, Button } from "../elements";
+import { getCookie, setCookie, deleteCookie } from "../shared/Cookie";
+
 import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
+import { emailCheck } from "../shared/common";
 
 const Login = (props) => {
     const dispatch = useDispatch();
+
     const [id, setId] = React.useState("");
     const [pwd, setPwd] = React.useState("");
 
-    const changeId = (e) => {
-        setId(e.target.value);
-    };
-
-    const changePwd = (e) => {
-        setPwd(e.target.value);
-    };
-
     const login = () => {
+        console.log(id);
+
         if (id === "" || pwd === "") {
-            window.alert("아이디 혹은 비밀번호를 입력해주세요");
-            return;
-        }
-        if (!emailCheck(id)) {
-            window.alert("이메일 형식이 맞지 않습니다");
+            window.alert("아이디 혹은 비밀번호가 공란입니다! 입력해주세요!");
             return;
         }
 
-        window.alert("로그인 되었습니다");
+        if (!emailCheck(id)) {
+            window.alert("이메일 형식이 맞지 않습니다!");
+            return;
+        }
+
         dispatch(userActions.loginFB(id, pwd));
     };
 
     return (
-        <div>
+        <React.Fragment>
             <Grid padding="16px">
                 <Text size="32px" bold>
                     로그인
                 </Text>
-                <Grid padding="16px 0">
+
+                <Grid padding="16px 0px">
                     <Input
                         label="아이디"
-                        placeholder="아이디를 입력해주세요"
+                        placeholder="아이디를 입력해주세요."
                         _onChange={(e) => {
                             setId(e.target.value);
                         }}
                     />
                 </Grid>
-                <Grid padding="16px 0">
+
+                <Grid padding="16px 0px">
                     <Input
-                        label="비밀번호"
-                        placeholder="비밀번호를 입력해주세요"
+                        label="패스워드"
+                        placeholder="패스워드 입력해주세요."
                         type="password"
                         _onChange={(e) => {
                             setPwd(e.target.value);
                         }}
                     />
                 </Grid>
-                <Grid padding="16px 0">
-                    <Button
-                        text="로그인하기"
-                        _onClick={() => {
-                            login();
-                        }}
-                    />
-                </Grid>
+
+                <Button
+                    text="로그인하기"
+                    _onClick={() => {
+                        console.log("로그인 했어!");
+                        login();
+                    }}
+                ></Button>
             </Grid>
-        </div>
+        </React.Fragment>
     );
 };
 

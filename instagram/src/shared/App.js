@@ -7,7 +7,7 @@ import { history } from "../redux/configureStore";
 import { Grid, Button, FaButton } from "../elements";
 import Permit from "./Permit";
 import PostList from "../pages/PostList";
-import Post from "../components/Post";
+import PostWrite from "../pages/PostWrite";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Header from "../components/Header";
@@ -45,7 +45,7 @@ function App() {
                                     </div>
                                 )}
                             />
-                            <Route path="/post" component={Post} />
+                            <Route path="/post" component={PostWrite} />
                         </Switch>
                     </ConnectedRouter>
                 </Grid>
@@ -60,7 +60,7 @@ function App() {
                         <Route path="/" exact component={PostList} />
                         <Route path="/login" exact component={Login} />
                         <Route path="/signup" exact component={Signup} />
-                        <Route path="/post" exact component={Post} />
+                        <Route path="/post" exact component={PostWrite} />
                     </ConnectedRouter>
                 </Grid>
             </div>
