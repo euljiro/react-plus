@@ -8,7 +8,6 @@ import moment from "moment";
 
 const SET_COMMENT = "SET_COMMENT";
 const ADD_COMMENT = "ADD_COMMENT";
-
 const LOADING = "LOADING";
 
 const setComment = createAction(SET_COMMENT, (post_id, comment_list) => ({

@@ -4,6 +4,9 @@ import { history } from "../redux/configureStore";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { useDispatch, useSelector } from "react-redux";
 import { firestore } from "../shared/firebase";
+import LikeButton from "../elements/LikeButton";
+import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import IconButton from "@material-ui/core/IconButton";
 
 const Post = (props) => {
     const dispatch = useDispatch();
@@ -17,11 +20,11 @@ const Post = (props) => {
         <div>
             <Grid>
                 <Grid is_flex>
-                    <Grid is_flex width="auto">
+                    <Grid is_flex width="auto" padding="16px">
                         <Image shape="circle" src={props.user_info.user_profile} />
                         <Text bold>{props.user_info.user_name}</Text>
                     </Grid>
-                    <Grid is_flex width="auto">
+                    <Grid is_flex width="auto" padding="16px">
                         <Text>{props.insert_dt}</Text>
                         {props.is_me && (
                             <Button
@@ -49,12 +52,15 @@ const Post = (props) => {
                 >
                     <Image shape="rectangle" src={props.image_url} />
                 </Grid>
+                <Grid is_flex padding="16px">
+                    <LikeButton props={props} />
+                    <IconButton>
+                        <ChatBubbleOutlineIcon />
+                    </IconButton>
+                    <Text>댓글 {props.comment_cnt}개</Text>
+                </Grid>
                 <Grid padding="16px">
                     <Text>{props.contents}</Text>
-                </Grid>
-                <Grid is_flex>
-                    <Button text="like" width="10%" />
-                    <Text>댓글 {props.comment_cnt}개</Text>
                 </Grid>
             </Grid>
         </div>
@@ -64,6 +70,7 @@ const Post = (props) => {
 //필수 프롭스를 담아두면 데이터가 없어서 나는 오류를 방지할 수 있다!
 Post.defaultProps = {
     user_info: {
+        id: "",
         user_name: "yl",
         user_profile:
             "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg",
@@ -71,9 +78,10 @@ Post.defaultProps = {
     img_url:
         "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg",
     contents: "cat~",
-    comment_cnt: 10,
+    comment_cnt: 0,
     insert_dt: "2021-03-27 10:10:10",
     is_me: false,
+    like_cnt: 0,
 };
 
 export default Post;

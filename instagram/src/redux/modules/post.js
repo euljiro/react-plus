@@ -28,8 +28,9 @@ const initialPost = {
     },
     image_url: "https://mean0images.s3.ap-northeast-2.amazonaws.com/4.jpeg",
     contents: "고양이네요",
-    comment_cnt: "",
+    comment_cnt: "0",
     insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+    like_cnt: "0",
 };
 
 const getPostFB = () => {
@@ -50,6 +51,7 @@ const getPostFB = () => {
                     image_url: _post.image_url,
                     comment_cnt: _post.comment_cnt,
                     insert_dt: _post.insert_dt,
+                    like_cnt: _post.like_cnt,
                 };
                 post_list.push(post);
             });

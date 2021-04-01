@@ -32,6 +32,7 @@ const PostDetail = (props) => {
     return (
         <>
             {post && <Post {...post} is_me={post.user_info.user_id === user_info.uid} />}
+            {/* <button type="button" class={post.like === null ? "likeDis"} */}
             <CommentWrite
                 post_id={id}
                 _onClick={write}
