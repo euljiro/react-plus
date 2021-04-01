@@ -3,6 +3,7 @@ import { withRouter } from "react-router";
 import styled from "styled-components";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import { history } from "../redux/configureStore";
 
 const FaButton = (props) => {
     return (
@@ -11,8 +12,7 @@ const FaButton = (props) => {
                 color="primary"
                 aria-label="add"
                 onClick={() => {
-                    props.history.push("/post");
-                    console.log("hi");
+                    history.push("/post");
                 }}
             >
                 <AddIcon />

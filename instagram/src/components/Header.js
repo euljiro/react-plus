@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid, Text, Button } from "../elements";
-import { setCookie, deleteCookie, getCookie } from "../shared/Cookie";
+import NotiBadge from "./NotiBadge";
 import { useSelector, useDispatch } from "react-redux";
-import user, { actionCreators as userActions } from "../redux/modules/user";
+import { actionCreators as userActions } from "../redux/modules/user";
 import { history } from "../redux/configureStore";
 import { apiKey } from "../shared/firebase";
 
@@ -16,9 +16,13 @@ const Header = (props) => {
             <React.Fragment>
                 <Grid is_flex padding="4px 16px" width="460px">
                     <Grid>
-                        <Text margin="0" size="24px" bold>
-                            gggggg
-                        </Text>
+                        <Button
+                            width="50%"
+                            text="메인"
+                            _onClick={() => {
+                                history.push("/");
+                            }}
+                        />
                     </Grid>
                     <Grid is_flex>
                         <Button
@@ -27,16 +31,16 @@ const Header = (props) => {
                                 console.log("mypage!");
                             }}
                         />
-                        <Button
-                            text="알림"
+                        <NotiBadge
                             _onClick={() => {
                                 history.push("/noti");
                             }}
                         />
+
                         <Button
                             text="로그아웃"
                             _onClick={() => {
-                                dispatch(userActions.logOut({}));
+                                dispatch(userActions.logoutFB());
                                 history.push("/");
                             }}
                         />

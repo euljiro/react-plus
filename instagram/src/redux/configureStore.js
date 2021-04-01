@@ -1,13 +1,12 @@
-import React from "react";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
+
 import User from "./modules/user";
 import Post from "./modules/post";
 import Image from "./modules/image";
-
-const env = process.env.NODE_ENV;
+import Comment from "./modules/comment";
 
 export const history = createBrowserHistory();
 
@@ -15,12 +14,14 @@ const rootReducer = combineReducers({
     user: User,
     post: Post,
     image: Image,
+    comment: Comment,
     router: connectRouter(history),
 });
 
 const middlewares = [thunk.withExtraArgument({ history: history })];
 
 // 지금이 어느 환경인 지 알려줘요. (개발환경, 프로덕션(배포)환경 ...)
+const env = process.env.NODE_ENV;
 
 // 개발환경에서는 로거라는 걸 하나만 더 써볼게요.
 if (env === "development") {

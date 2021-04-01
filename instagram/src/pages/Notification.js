@@ -1,41 +1,38 @@
 import React from "react";
-import react from "react";
 import { Grid, Text, Image } from "../elements/index";
 import Card from "../components/Card";
 
+import { realtime } from "../shared/firebase";
+import { useSelector } from "react-redux";
+
 const Notification = (props) => {
-    let noti = [
-        {
-            user_name: "illy",
-            post_id: "post1",
-            image_url:
-                "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg",
-        },
-        {
-            user_name: "illy",
-            post_id: "post2",
-            image_url:
-                "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg",
-        },
-        {
-            user_name: "illy",
-            post_id: "post3",
-            image_url:
-                "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg",
-        },
-        {
-            user_name: "illy",
-            post_id: "post4",
-            image_url:
-                "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg",
-        },
-    ];
+    const [noti, setNoti] = React.useState([]);
+    const user = useSelector((state) => state.user.user);
+
+    React.useEffect(() => {
+        if (!user) {
+            return;
+        }
+        const notiDB = realtime.ref(`noti/${user.uid}/list`);
+        const _noti = notiDB.orderByChild("insert_dt");
+        _noti.once("value", (snapshot) => {
+            if (snapshot.exists()) {
+                let _data = snapshot.val();
+                let _noti_list = Object.keys(_data)
+                    .reverse()
+                    .map((s) => {
+                        return _data[s];
+                    });
+                setNoti(_noti_list);
+            }
+        });
+    }, [user]);
 
     return (
         <React.Fragment>
             <Grid padding="16px" bg="#efefef">
-                {noti.map((n) => {
-                    return <Card key={n.post_id} />;
+                {noti.map((n, idx) => {
+                    return <Card {...n} key={`noti_${idx}`} />;
                 })}
             </Grid>
         </React.Fragment>

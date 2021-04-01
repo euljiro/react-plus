@@ -65,3 +65,7 @@ body {
     border: 0;
     cursor: pointer;
 }
+
+.BadgeMargin {
+    width: 50%;
+}

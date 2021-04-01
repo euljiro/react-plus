@@ -8,26 +8,27 @@ import moment from "moment";
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
+const DELETE_POST = "DELETE_POST";
 
 //ActionCreator
 const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (post_id, post) => ({ post_id, post }));
+const deletePost = createAction(DELETE_POST, (post_id, post) => ({ post_id, post }));
 
 const initialState = {
     list: [],
 };
 
 const initialPost = {
-    id: 0,
+    id: "",
     user_info: {
-        id: 0,
-        user_name: "nick",
+        user_name: "",
         user_profile: "https://mean0images.s3.ap-northeast-2.amazonaws.com/4.jpeg",
     },
     image_url: "https://mean0images.s3.ap-northeast-2.amazonaws.com/4.jpeg",
     contents: "고양이네요",
-    comment_cnt: 5,
+    comment_cnt: "",
     insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
 
@@ -57,6 +58,37 @@ const getPostFB = () => {
     };
 };
 
+const getOnePostFB = (id) => {
+    return function (dispatch, getState, { history }) {
+        const postDB = firestore.collection("post");
+        postDB
+            .doc(id)
+            .get()
+            .then((doc) => {
+                let _post = doc.data();
+
+                if (!_post) {
+                    return;
+                }
+
+                let post = Object.keys(_post).reduce(
+                    (acc, cur) => {
+                        if (cur.indexOf("user_") !== -1) {
+                            return {
+                                ...acc,
+                                user_info: { ...acc.user_info, [cur]: _post[cur] },
+                            };
+                        }
+                        return { ...acc, [cur]: _post[cur] };
+                    },
+                    { id: doc.id, user_info: {} }
+                );
+
+                dispatch(setPost([post], { start: null, next: null, size: 3 }));
+            });
+    };
+};
+
 const editPostFB = (post_id = null, post = {}) => {
     return function (dispatch, getState, { history }) {
         if (!post_id) {
@@ -68,7 +100,6 @@ const editPostFB = (post_id = null, post = {}) => {
 
         const _post_idx = getState().post.list.findIndex((p) => p.id === post_id);
         const _post = getState().post.list[_post_idx];
-
         console.log(_post);
 
         const postDB = firestore.collection("post");
@@ -146,7 +177,6 @@ const addPostFB = (contents = "") => {
                         return url;
                     })
                     .then((url) => {
-                        console.log(url);
                         postDB
                             .add({ ...user_info, ..._post, image_url: url })
                             .then((doc) => {
@@ -167,12 +197,48 @@ const addPostFB = (contents = "") => {
     };
 };
 
+const deletePostFB = (post_id, post) => {
+    return function (dispatch, getState, { history }) {
+        const delDB = firestore.collection("post");
+        delDB
+            .doc(post_id)
+            .delete()
+            .then(() => {
+                window.alert("포스트가 삭제되었습니다");
+                dispatch(deletePost(post_id));
+                console.log(delDB, "delete");
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+};
+
 //Reducer
 export default handleActions(
     {
         [SET_POST]: (state, action) =>
             produce(state, (draft) => {
-                draft.list = action.payload.post_list;
+                draft.list.push(...action.payload.post_list);
+
+                // post_id가 같은 중복 항목을 제거합시다! :)
+                draft.list = draft.list.reduce((acc, cur) => {
+                    // findIndex로 누산값(cur)에 현재값이 이미 들어있나 확인해요!
+                    // 있으면? 덮어쓰고, 없으면? 넣어주기!
+                    if (acc.findIndex((a) => a.id === cur.id) === -1) {
+                        return [...acc, cur];
+                    } else {
+                        acc[acc.findIndex((a) => a.id === cur.id)] = cur;
+                        return acc;
+                    }
+                }, []);
+
+                // paging이 있을 때만 넣기
+                if (action.payload.paging) {
+                    draft.paging = action.payload.paging;
+                }
+                draft.is_loading = false;
             }),
         [ADD_POST]: (state, action) =>
             produce(state, (draft) => {
@@ -194,6 +260,8 @@ const actionCreators = {
     addPostFB,
     editPostFB,
     editPost,
+    getOnePostFB,
+    deletePostFB,
 };
 
 export { actionCreators };

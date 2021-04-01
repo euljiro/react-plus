@@ -10,7 +10,6 @@ const Permit = (props) => {
 
     // 세션이 있나 확인합니다
     const is_login = sessionStorage.getItem(_session_key);
-
     if (is_login && user_info) {
         return <React.Fragment>{props.children}</React.Fragment>;
     }

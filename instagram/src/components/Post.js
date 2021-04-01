@@ -1,8 +1,18 @@
 import React from "react";
 import { Grid, Image, Text, Button } from "../elements";
 import { history } from "../redux/configureStore";
+import { actionCreators as postActions } from "../redux/modules/post";
+import { useDispatch, useSelector } from "react-redux";
+import { firestore } from "../shared/firebase";
 
 const Post = (props) => {
+    const dispatch = useDispatch();
+    const post_id = props.id;
+
+    const deletePost = () => {
+        dispatch(postActions.deletePostFB(post_id));
+    };
+
     return (
         <div>
             <Grid>
@@ -25,15 +35,25 @@ const Post = (props) => {
                                 수정
                             </Button>
                         )}
+                        {props.is_me && (
+                            <Button padding="8px" width="auto" margin="2px" _onClick={deletePost}>
+                                delete
+                            </Button>
+                        )}
                     </Grid>
                 </Grid>
-                <Grid>
+                <Grid
+                    _onClick={() => {
+                        history.push(`/postDetail/${props.id}`);
+                    }}
+                >
                     <Image shape="rectangle" src={props.image_url} />
                 </Grid>
                 <Grid padding="16px">
                     <Text>{props.contents}</Text>
                 </Grid>
-                <Grid padding="16px">
+                <Grid is_flex>
+                    <Button text="like" width="10%" />
                     <Text>댓글 {props.comment_cnt}개</Text>
                 </Grid>
             </Grid>

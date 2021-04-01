@@ -21,7 +21,6 @@ const PostWrite = (props) => {
 
     React.useEffect(() => {
         if (is_edit && !_post) {
-            console.log("not post");
             history.goBack();
             return;
         }
